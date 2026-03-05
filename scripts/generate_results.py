@@ -69,6 +69,9 @@ def main():
     print(f"\nText length stats:")
     print(df["text_clean"].str.len().describe().to_string())
 
+    # Add empty label column
+    df["label"] = ""
+
     # Shuffle and save
     df = df.sample(frac=1, random_state=42).reset_index(drop=True)
     parsed = datetime.strptime(args.date, "%Y-%m-%d")
