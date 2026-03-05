@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+.venv/
+
+# Testing
+.pytest_cache/
+
+# Data files
+data/raw/**/*.csv
+data/normalized/**/*.csv
+data/results/**/*.csv
+
+# Keep directory structure
+!data/raw/.gitkeep
+!data/normalized/.gitkeep
+
+# OS
+.DS_Store
