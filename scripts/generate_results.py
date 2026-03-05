@@ -2,7 +2,7 @@
 """Generate a filtered & shuffled results CSV from normalized data.
 
 Filters: remove nulls, remove short text (<=30 chars), keep Vietnamese only.
-Output: data/results/{DD_MM_YYYY}.csv
+Output: data/results/{DD_MM_YYYY}.csv, data/results/{DD_MM_YYYY}.parquet
 
 Usage:
     python scripts/generate_results.py --date 2026-03-05
@@ -69,18 +69,20 @@ def main():
     print(f"\nText length stats:")
     print(df["text_clean"].str.len().describe().to_string())
 
-    # Add empty label column
-    df["label"] = ""
+    # Ensure consistent types for parquet
+    df["source_id"] = df["source_id"].astype(str)
 
     # Shuffle and save
     df = df.sample(frac=1, random_state=42).reset_index(drop=True)
     parsed = datetime.strptime(args.date, "%Y-%m-%d")
-    output_name = parsed.strftime("%d_%m_%Y") + ".csv"
+    output_stem = parsed.strftime("%d_%m_%Y")
     output_dir = Path("data/results")
     output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / output_name
-    df.to_csv(output_path, index=False)
-    print(f"\nSaved {len(df)} records -> {output_path}")
+    csv_path = output_dir / (output_stem + ".csv")
+    parquet_path = output_dir / (output_stem + ".parquet")
+    df.to_csv(csv_path, index=False)
+    df.to_parquet(parquet_path, index=False)
+    print(f"\nSaved {len(df)} records -> {csv_path}, {parquet_path}")
 
 
 if __name__ == "__main__":
