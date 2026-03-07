@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Social data normalizer: converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema and pre-labels using OpenAI API. Built with Python and pandas.
+Social data normalizer: converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema, pre-labels using OpenAI API, and trains classification models. Built with Python, pandas, and scikit-learn.
 
 ## Common Commands
 
@@ -101,6 +101,10 @@ data/
     ├── {DD_MM_YYYY}_gpt5mini.csv              # Pre-labeled with gpt-5-mini
     └── {DD_MM_YYYY}_gpt5nano.csv              # Pre-labeled with gpt-5-nano
 ```
+
+**Notebooks** (`notebooks/`):
+- `01_eda.ipynb` — Exploratory data analysis & visualization (label distribution, platform distribution, text length)
+- `02_training_baseline.ipynb` — Baseline models (TF-IDF + Logistic Regression / SVM / Random Forest)
 
 **Raw column expectations per source**:
 - praw-reddit-post-data: already in unified schema (pre-normalized)

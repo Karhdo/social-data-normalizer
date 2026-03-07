@@ -27,5 +27,8 @@ data/results/**/*.csv
 # Pre-labeled data
 data/prelabeled/**/*.csv
 
+# Jupyter
+.ipynb_checkpoints/
+
 # OS
 .DS_Store

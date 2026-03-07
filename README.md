@@ -1,6 +1,6 @@
-# Social Data Normalizer
+# Social Mental Health Classifier
 
-Converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema and pre-labels using OpenAI API. Built with Python and pandas.
+Converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema, pre-labels using OpenAI API, and trains classification models. Built with Python, pandas, and scikit-learn.
 
 ## Unified Schema
 
@@ -90,6 +90,13 @@ data/
     ├── {DD_MM_YYYY}_gpt5mini.csv          # Pre-labeled with gpt-5-mini
     └── {DD_MM_YYYY}_gpt5nano.csv          # Pre-labeled with gpt-5-nano
 ```
+
+## Notebooks
+
+| Notebook | Description |
+|---|---|
+| `01_eda.ipynb` | Exploratory data analysis — label distribution, platform distribution, text length |
+| `02_training_baseline.ipynb` | Baseline models — TF-IDF + Logistic Regression / SVM / Random Forest |
 
 ## Supported Data Sources
 
