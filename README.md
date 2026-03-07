@@ -97,6 +97,7 @@ data/
 |---|---|
 | `01_eda.ipynb` | Exploratory data analysis — label distribution, platform distribution, text length |
 | `02_training_baseline.ipynb` | Baseline models — TF-IDF + Logistic Regression / SVM / Random Forest |
+| `03_training_phobert.ipynb` | Fine-tune PhoBERT (`vinai/phobert-base`) with class weights, requires GPU |
 
 ## Supported Data Sources
 

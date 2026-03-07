@@ -105,6 +105,7 @@ data/
 **Notebooks** (`notebooks/`):
 - `01_eda.ipynb` — Exploratory data analysis & visualization (label distribution, platform distribution, text length)
 - `02_training_baseline.ipynb` — Baseline models (TF-IDF + Logistic Regression / SVM / Random Forest)
+- `03_training_phobert.ipynb` — Fine-tune PhoBERT (vinai/phobert-base) with class weights, requires GPU
 
 **Raw column expectations per source**:
 - praw-reddit-post-data: already in unified schema (pre-normalized)
