@@ -21,5 +21,11 @@ data/results/**/*.csv
 !data/raw/.gitkeep
 !data/normalized/.gitkeep
 
+# Environment variables
+.env
+
+# Pre-labeled data
+data/prelabeled/**/*.csv
+
 # OS
 .DS_Store

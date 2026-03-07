@@ -1,6 +1,6 @@
 # Social Data Normalizer
 
-Converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema for downstream labeling and analysis. Built with Python and pandas.
+Converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema and pre-labels using OpenAI API. Built with Python and pandas.
 
 ## Unified Schema
 
@@ -53,6 +53,22 @@ python3 scripts/generate_results.py --date 2026-03-05
 Applies filters: remove nulls, remove short text (<=30 chars), keep Vietnamese only.
 Output: `data/results/{DD_MM_YYYY}.csv`
 
+### Step 4: Pre-label using OpenAI API
+
+```bash
+# Requires OPENAI_API_KEY in .env file (see .env.example)
+
+# Using gpt-4o-mini
+python3 scripts/prelabel.py --input data/results/05_03_2026.csv --output data/prelabeled/05_03_2026_gpt4omini.csv
+
+# Using gpt-5-mini
+python3 scripts/prelabel.py --input data/results/05_03_2026.csv --output data/prelabeled/05_03_2026_gpt5mini.csv --model gpt-5-mini
+```
+
+Supports resume — if interrupted, re-run the same command to continue. Auto-saves every 100 tasks.
+
+**Label classes**: `stress`, `depression`, `political`, `neutral`
+
 ## Data Folder Structure
 
 ```
@@ -67,8 +83,12 @@ data/
 │       ├── facebook.csv
 │       ├── reddit.csv
 │       └── threads.csv
-└── results/
-    └── {DD_MM_YYYY}.csv                  # Filtered & shuffled output for labeling
+├── results/
+│   └── {DD_MM_YYYY}.csv                  # Filtered & shuffled output for labeling
+└── prelabeled/                            # Pre-labeled output
+    ├── {DD_MM_YYYY}_gpt4omini.csv         # Pre-labeled with gpt-4o-mini
+    ├── {DD_MM_YYYY}_gpt5mini.csv          # Pre-labeled with gpt-5-mini
+    └── {DD_MM_YYYY}_gpt5nano.csv          # Pre-labeled with gpt-5-nano
 ```
 
 ## Supported Data Sources

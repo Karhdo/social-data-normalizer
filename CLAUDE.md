@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Social data normalizer: converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema. Built with Python and pandas.
+Social data normalizer: converts raw social media data (Reddit, Facebook, Threads) into a unified CSV schema and pre-labels using OpenAI API. Built with Python and pandas.
 
 ## Common Commands
 
 ```bash
-# Create virtual environment and install dependencies
-python3 -m venv .venv
+# Create virtual environment and install dependencies (requires Python 3.13)
+python3.13 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
@@ -45,6 +45,27 @@ python3 scripts/generate_results.py --date 2026-03-05
 ```
 Filters: remove nulls, remove short text (<=30 chars), keep Vietnamese only. Output: `data/results/DD_MM_YYYY.csv`.
 
+### Step 4: Pre-label using OpenAI API
+```bash
+# Requires OPENAI_API_KEY in .env file (see .env.example)
+
+# Using gpt-4o-mini
+python3 scripts/prelabel.py --input data/results/05_03_2026.csv --output data/prelabeled/05_03_2026_gpt4omini.csv
+
+# Using gpt-5-mini (better accuracy)
+python3 scripts/prelabel.py --input data/results/05_03_2026.csv --output data/prelabeled/05_03_2026_gpt5mini.csv --model gpt-5-mini
+
+# Using gpt-5-nano (cheapest, good for classification)
+python3 scripts/prelabel.py --input data/results/05_03_2026.csv --output data/prelabeled/05_03_2026_gpt5nano.csv --model gpt-5-nano
+```
+Supports resume — if interrupted, re-run the same command to continue. Auto-saves progress every 100 tasks.
+
+**Label classes**:
+- `stress` — stress, pressure, overload, burnout, worry, anxiety, fear, nervousness, feeling overwhelmed
+- `depression` — sadness, hopelessness, emotional exhaustion, loss of motivation, loneliness
+- `political` — politics, government, social controversies, sensitive social issues, propaganda
+- `neutral` — general discussion, opinions, jokes, entertainment, daily life, etc
+
 ## Architecture
 
 **Unified schema** (`src/schema.py`): All normalized data outputs these columns:
@@ -73,8 +94,12 @@ data/
 │       ├── facebook.csv
 │       ├── reddit.csv
 │       └── threads.csv
-└── results/
-    └── {DD_MM_YYYY}.csv                  # Filtered & shuffled output for labeling
+├── results/
+│   └── {DD_MM_YYYY}.csv                  # Filtered & shuffled output for labeling
+└── prelabeled/                            # Pre-labeled output (gitignored)
+    ├── {DD_MM_YYYY}_gpt4omini.csv              # Pre-labeled with gpt-4o-mini
+    ├── {DD_MM_YYYY}_gpt5mini.csv              # Pre-labeled with gpt-5-mini
+    └── {DD_MM_YYYY}_gpt5nano.csv              # Pre-labeled with gpt-5-nano
 ```
 
 **Raw column expectations per source**:
